@@ -30,7 +30,7 @@ class virtuser_identities_autoupdate extends rcube_plugin
 	    return $args;
         }
 
-	$user = rcmail::get_instance()->user;
+	$user = $this->rc->user;
 
         $current_identities = $this->rc->user->list_emails();
         $target_identities = $this->fetch_aliases($user->data['username']);
@@ -38,7 +38,7 @@ class virtuser_identities_autoupdate extends rcube_plugin
         // If enabled, remove unknown identities
         if ($this->config['remove_unknown_alias_identities']) {
             foreach ($current_identities as $existing_identity) {
-                if (!in_array($current_identity['email'], $target_identities)) {
+                if (!in_array($existing_identity['email'], $target_identities)) {
                     // Remove
                     $id = $existing_identity['identity_id'];
                     $hook_result = $this->rc->plugins->exec_hook('identity_delete', $id);
@@ -62,21 +62,21 @@ class virtuser_identities_autoupdate extends rcube_plugin
                     break;
                 }
             }
-            if ($exists) break;
+            if ($exists) continue;
 
             // Add
             $hook_result = $this->rc->plugins->exec_hook('identity_create', array(
                 'login'  => false, // Most often triggered when the use was created long ago
                 'record' => array(
                     'user_id'  => $this->rc->user->ID,
-                    'standard' => 0,
+                    'standard' => $new_identity == $user->data['username'] ? 1 : 0,
                     'email'    => $new_identity,
                     'name'     => $identity_name
                 ),
             ));
 
             if (!$hook_result['abort'] && $hook_result['record']['email']) {
-                $this->rc->user->insert_identity($hook_result['record']);
+                $insert_result = $user->insert_identity($hook_result['record']);
             }
         }
 
