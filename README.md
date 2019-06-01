@@ -4,7 +4,7 @@ Updates your user's identities on login based on a custom database query.
 Currently supports 1 column query results (email addresses).
 
 ## Configuration
-Copy config.inc.php.dist to config.inc.php (or `ln`) and follow instructions for each configuration value.
+Copy [config.inc.php.dist](config.inc.php.dist) to `config.inc.php` (or `ln`) and follow instructions in this file for each configuration value.
 
 ## Contributing
 Feel free to make a pull request if you improve this plugin.
