@@ -2,7 +2,7 @@
     "name": "arisuongaku/virtuser_identity_autoupdate",
     "type": "roundcube-plugin",
     "description": "Updates user's identities on login based on aliases from virtuser_query. Update rules are configurable.",
-    "license": "",
+    "license": "MIT",
     "version": "0.1",
     "authors": [
         {
