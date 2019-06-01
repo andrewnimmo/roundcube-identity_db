@@ -1,15 +1,13 @@
 <?php
 /**
- * Virtuser Identity Auto Update
+ * Identity DB
  *
- * Updates user's identities on each login 
+ * Updates user's identities on each login from a database request 
  *
- * This plugin requires virtuser_query to work.
- * 
  * @author Alice Gaudon
  * @license MIT
  */
-class virtuser_identities_autoupdate extends rcube_plugin
+class identity_db extends rcube_plugin
 {
     private $rc;
     private $config;
@@ -19,7 +17,7 @@ class virtuser_identities_autoupdate extends rcube_plugin
     {
         $this->rc = rcmail::get_instance();
 	$this->load_config();
-	$this->config = $this->rc->config->get('virtuser_identity_autoupdate');
+	$this->config = $this->rc->config->get('identity_db');
 
         $this->add_hook('login_after', array($this, 'login_after'));
     }
@@ -36,7 +34,7 @@ class virtuser_identities_autoupdate extends rcube_plugin
         $target_identities = $this->fetch_aliases($user->data['username']);
 
         // If enabled, remove unknown identities
-        if ($this->config['remove_unknown_alias_identities']) {
+        if ($this->config['remove_unknown_identities']) {
             foreach ($current_identities as $existing_identity) {
                 if (!in_array($existing_identity['email'], $target_identities)) {
                     // Remove
@@ -76,7 +74,7 @@ class virtuser_identities_autoupdate extends rcube_plugin
             ));
 
             if (!$hook_result['abort'] && $hook_result['record']['email']) {
-                $insert_result = $user->insert_identity($hook_result['record']);
+                $user->insert_identity($hook_result['record']);
             }
         }
 
@@ -88,7 +86,7 @@ class virtuser_identities_autoupdate extends rcube_plugin
 
         $dbh = $this->get_dbh();
 
-        $result = $dbh->query(preg_replace('/%u/', $dbh->escape($username), $this->config['user_aliases_query']));
+        $result = $dbh->query(preg_replace('/%u/', $dbh->escape($username), $this->config['identities_query']));
 
         while ($row = $dbh->fetch_array($result)) {
             array_push($aliases, $row[0]);

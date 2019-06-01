@@ -1,15 +1,18 @@
 <?php
-$conf = $config['virtuser_identity_autoupdate'] = array();
+$conf = array();
 
 // Enables (true) or disables (false) the plugin
 $conf['update_on_login'] = true;
 
 // Remove identities for which the email address is unknown for this user
-$conf['remove_unknown_alias_identities'] = true;
+$conf['remove_unknown_identities'] = true;
 
 // Connection to the database which holds user aliases information
 $conf['dsn'] = '';
 
 // Query all aliases for a given user. '%u' will be replaced with the username.
 // Example : SELECT aliases.email FROM aliases LEFT JOIN users ON aliases.user_id=users.id WHERE users.name="%u"
-$conf['user_aliases_query'] = '';
+$conf['identities_query'] = '';
+
+// Finally register to the global config
+$config['identity_db'] = $conf;
