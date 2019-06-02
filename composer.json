@@ -3,7 +3,7 @@
     "type": "roundcube-plugin",
     "description": "Updates user's identities on login based on a database query. Some update rules are configurable.",
     "license": "MIT",
-    "version": "0.1",
+    "version": "0.1-git",
     "authors": [
         {
             "name": "Alice Gaudon",
