@@ -1,5 +1,5 @@
 {
-    "name": "arisuongaku/identity_db",
+    "name": "ashpie/identity_db",
     "type": "roundcube-plugin",
     "description": "Updates user's identities on login based on a database query. Some update rules are configurable.",
     "license": "MIT",
@@ -17,7 +17,7 @@
             "url": "https://plugins.roundcube.net"
         }
     ],
-    "homepage": "https://gitlab.com/ArisuOngaku/roundcube-identity_db",
+    "homepage": "https://eternae.ink/ashpie/roundcube-identity_db",
     "require": {
         "roundcube/plugin-installer": ">=0.1.6"
     }
